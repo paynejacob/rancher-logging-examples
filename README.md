@@ -16,6 +16,32 @@ This chart demonstrates 3 scenarios:
 2. `logs-by-label` collects all logs for pods with the label `rancher.logging.example/app: log-generator`
 3. `namespace-logs` collects all logs for the namespace this chart is deployed in.
 
+#### Resource Requests and Limits
+
+You can change `elasticsearch` resource requests and limits from the upstream chart by editing `values.yaml` as follows...
+
+```yaml
+elasticsearch:
+  resources:
+    requests:
+      cpu: "0"
+      memory: "0"
+    limits:
+      cpu: "0"
+      memory: "0"
+```
+
+#### Checking ElasticSearch
+
+You can if `rancher-logging` is working by forwarding port `9200` and accessing the instance via `localhost`.
+
+```bash
+kubectl port-forward -n logging-example svc/elasticsearch-master 9200:9200
+```
+
+Now, navigate to your browser and access `http://localhost:9200/_cat/indices`.
+You should see three indices from the Flow(s), Output(s), ClusterFlow(s), and ClusterOuput(s) created.
+
 ## Log Generator
 
 `docker run paynejacob/log-generator:latest`

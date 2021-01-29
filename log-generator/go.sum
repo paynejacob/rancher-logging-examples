@@ -1,0 +1,4 @@
+github.com/drhodes/golorem v0.0.0-20160418191928-ecccc744c2d9 h1:EQOZw/LCQ0SM4sNez3EhUf9gQalQrLrs4mPtmQa+d58=
+github.com/drhodes/golorem v0.0.0-20160418191928-ecccc744c2d9/go.mod h1:NsKVpF4h4j13Vm6Cx7Kf0V03aJKjfaStvm5rvK4+FyQ=
+github.com/kelseyhightower/envconfig v1.4.0 h1:Im6hONhd3pLkfDFsbRgu68RDNkGF1r3dvMUtDTo2cv8=
+github.com/kelseyhightower/envconfig v1.4.0/go.mod h1:cccZRl6mQpaq41TPp5QxidR+Sa3axMbJDNb//FQX6Gg=

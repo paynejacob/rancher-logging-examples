@@ -1,0 +1,26 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  name: log-generator-app
+  labels:
+  {{- include "rancher-logging-example.labels" . | nindent 4 }}
+spec:
+  globalOutputRefs:
+    - log-generator
+  match:
+    - select:
+        labels:
+          rancher.logging.example/app: log-generator
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: log-generator
+  labels:
+  {{- include "rancher-logging-example.labels" . | nindent 4 }}
+spec:
+  elasticsearch:
+    host: elasticsearch-master.{{.Release.Namespace}}.svc
+    port: 9200
+    scheme: http
+    index_name: log-generator

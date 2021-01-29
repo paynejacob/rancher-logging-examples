@@ -1,0 +1,22 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  name: all-logs
+  labels:
+    {{- include "rancher-logging-example.labels" . | nindent 4 }}
+spec:
+  globalOutputRefs:
+    - all-logs-index
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: all-logs
+  labels:
+  {{- include "rancher-logging-example.labels" . | nindent 4 }}
+spec:
+  elasticsearch:
+    host: elasticsearch-master.{{.Release.Namespace}}.svc
+    port: 9200
+    scheme: http
+    index_name: all-logs

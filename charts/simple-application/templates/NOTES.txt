@@ -1,1 +1,0 @@
-You should now see a deployment with 2 replicas run the log-generator.  These pods will constantly output logs.

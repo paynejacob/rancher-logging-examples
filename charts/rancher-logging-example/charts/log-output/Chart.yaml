@@ -1,6 +1,6 @@
 apiVersion: v2
-name: simple-application
-description: Creates a deployment of the logging generator image.  This image will consistantly output log messages, it is great for testing log collection!
+name: log-output
+description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -1,0 +1,5 @@
+*
+!/pkg/**
+!/go.mod
+!/go.sum
+!/log-output.go

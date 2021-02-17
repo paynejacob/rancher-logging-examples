@@ -18,17 +18,14 @@ This chart demonstrates 3 scenarios:
 
 #### Resource Requests and Limits
 
-You can change `elasticsearch` resource requests and limits from the upstream chart by editing `values.yaml` as follows...
+You can change `elasticsearch` resource requests and limits from the upstream chart by adding the following `helm install` arguments...
 
-```yaml
-elasticsearch:
-  resources:
-    requests:
-      cpu: "0"
-      memory: "0"
-    limits:
-      cpu: "0"
-      memory: "0"
+```bash
+helm install <required-and-optional-args> \
+    --set elasticsearch.resources.requests.cpu="0" \
+    --set elasticsearch.resources.requests.memory="0" \
+    --set elasticsearch.resources.limits.cpu="0" \
+    --set elasticsearch.resources.limits.memory="0"
 ```
 
 #### Checking ElasticSearch

@@ -24,7 +24,7 @@ make install
 
 
 #### Checking the output
-
+ 
 To see information about the logs being collected you will need to proxy to the log output service.  The helm notes will include instructions for setting this up after a successful installation. Then you can view your logs by going to [http://localhost:8080](http://localhost:8080).  It can take a few seconds for logs to show up.
 
 ## Log Generator
@@ -37,7 +37,7 @@ You can tweak the log output by setting the following environment variables:
 
 - `LOGFORMAT` a go template string for the generated logs
 - `FREQUENCY` the maximum delay between log messages
-- `CONSTANTRATE` by default the log generator will output messages ever 0 - `FREQUENCY` seconds.  If this variable is set to true messages will be logged ever `FREQUENCY` seconds.
+- `CONSTANTRATE` by default the log generator will output messages every - `FREQUENCY` seconds.  If this variable is set to true messages will be logged every `FREQUENCY` seconds.
 
 ## Log Output
 

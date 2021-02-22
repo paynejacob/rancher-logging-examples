@@ -21,3 +21,4 @@ spec:
     endpoint: http://{{ .Release.Name }}-log-output.{{ .Release.Namespace }}.svc/all-logs/
     buffer:
       flush_interval: 10s
+      flush_mode: interval

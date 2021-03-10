@@ -15,8 +15,8 @@ metadata:
   labels:
   {{- include "rancher-logging-example.labels" . | nindent 4 }}
 spec:
-  elasticsearch:
-    host: elasticsearch-master.{{.Release.Namespace}}.svc
-    port: 9200
-    scheme: http
-    index_name: {{ .Release.Namespace }}-namespace
+  http:
+    endpoint: http://{{ .Release.Name }}-log-output.{{ .Release.Namespace }}.svc/{{ .Release.Namespace }}-namespace/
+    buffer:
+      flush_interval: 10s
+      flush_mode: interval

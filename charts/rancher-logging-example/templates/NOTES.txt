@@ -1,0 +1,5 @@
+1. Get the Logging output URL by running the following command:
+
+kubectl port-forward -n {{ .Release.Namespace }} svc/{{ .Release.Name }}-log-output 8080:80
+
+2. Go to http://localhost:8080 to view your logs.

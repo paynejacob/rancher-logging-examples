@@ -1,65 +1,13 @@
 # Default values for rancher-logging-example.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
-replicaCount: 2
-
-image:
-  repository: paynejacob/log-generator
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-resources:
-   limits:
-     cpu: 100m
-     memory: 20Mi
-   requests:
-     cpu: 100m
-     memory: 20Mi
-
-nodeSelector:
-  kubernetes.io/os: linux
-
-tolerations:
-  - key: cattle.io/os
-    operator: "Equal"
-    value: "linux"
-    effect: NoSchedule
-
-affinity: {}
-
-elasticsearch:
-  persistence:
-    enabled: false
-  replicas: 1
-  minimumMasterNodes: 1
+log-generator:
+  replicaCount: 2
+  resources:
+    limits:
+      memory: 16Mi
+    requests:
+      memory: 4Mi
   nodeSelector:
     kubernetes.io/os: linux
   tolerations:
@@ -67,4 +15,17 @@ elasticsearch:
       operator: "Equal"
       value: "linux"
       effect: NoSchedule
-
+log-output:
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 16Mi
+    requests:
+      memory: 8Mi
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations:
+    - key: cattle.io/os
+      operator: "Equal"
+      value: "linux"
+      effect: NoSchedule

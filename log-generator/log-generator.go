@@ -14,8 +14,8 @@ import (
 type config struct {
 	LogFormat string `default:"[{{.Timestamp}}] @{{.Level}} {{.Message}} {{.Number}} ::{{.Decimal}}"`
 
-	Frequency time.Duration `default:"5s"`
-	ConstantRate bool `default:"false"`
+	Frequency time.Duration `default:"1s"`
+	ConstantRate bool `default:"true"`
 }
 
 type logLevel string

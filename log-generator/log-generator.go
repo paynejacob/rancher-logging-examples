@@ -14,11 +14,12 @@ import (
 type config struct {
 	LogFormat string `default:"[{{.Timestamp}}] @{{.Level}} {{.Message}} {{.Number}} ::{{.Decimal}}"`
 
-	Frequency time.Duration `default:"1s"`
-	ConstantRate bool `default:"true"`
+	Frequency    time.Duration `default:"1s"`
+	ConstantRate bool          `default:"true"`
 }
 
 type logLevel string
+
 const (
 	DEBUG    logLevel = "DEBUG"
 	INFO     logLevel = "INFO"
@@ -28,7 +29,7 @@ const (
 )
 
 func main() {
-	logLevels := []logLevel{DEBUG,INFO,WARNING,ERROR,CRITICAL}
+	logLevels := []logLevel{DEBUG, INFO, WARNING, ERROR, CRITICAL}
 	var logCount int64
 	var delay time.Duration
 	var config = &config{}
@@ -42,12 +43,12 @@ func main() {
 	for {
 		levelIndex := r.Intn(len(logLevels))
 
-		_ = template.Must(template.New("").Parse(config.LogFormat + "\n")).Execute(os.Stdout, map[string]string{
+		_ = template.Must(template.New("").Parse(config.LogFormat+"\n")).Execute(os.Stdout, map[string]string{
 			"Timestamp": time.Now().Format(time.RFC3339),
 			"Level":     string(logLevels[levelIndex]),
 			"Message":   golorem.Sentence(5, 10),
 			"Number":    fmt.Sprintf("%d", logCount),
-			"Decimal":    fmt.Sprintf("%f", r.Float64()),
+			"Decimal":   fmt.Sprintf("%f", r.Float64()),
 		})
 
 		if config.ConstantRate {

@@ -1,0 +1,30 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  push-log-generator:
+    name: push-image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: docker build -t paynejacob/log-generator:latest -f log-generator/Dockerfile log-generator
+      - run: docker push paynejacob/log-generator:latest
+  push-log-output:
+    name: push-image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: docker build -t paynejacob/log-output:latest -f log-output/Dockerfile log-output
+      - run: docker push paynejacob/log-output:latest

@@ -1,0 +1,28 @@
+pushd log-generator
+    go mod tidy
+    go fmt log-generator.go
+popd
+
+pushd log-output
+    go mod tidy
+    go fmt log-output.go
+    go fmt pkg/index
+popd
+
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+  echo "bad go formatting or out of date go.mod file!"
+  git status
+  exit 1
+fi
+
+helm lint --with-subcharts .\charts\rancher-logging-example
+
+pushd log-generator
+    docker build --no-cache .
+popd
+
+pushd log-output
+    docker build --no-cache .
+popd
+
+helm lint --with-subcharts charts/rancher-logging-example

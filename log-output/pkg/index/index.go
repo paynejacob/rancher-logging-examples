@@ -1,11 +1,13 @@
 package index
 
-import "time"
+import (
+	"time"
+)
 
 const MaxIndexLogs = 100
 
 type Index struct {
-	Name     string
+	Name     string    `json:"name"`
 	FirstLog time.Time `json:"first_log"`
 	LastLog  time.Time `json:"last_log"`
 	LogCount int64     `json:"log_count"`
@@ -33,4 +35,3 @@ func WriteLog(index *Index, _log []byte) {
 		index.Logs[index.LogCount-1] = _log
 	}
 }
-

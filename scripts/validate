@@ -15,14 +15,7 @@ if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
   exit 1
 fi
 
-helm lint --with-subcharts .\charts\rancher-logging-example
-
-pushd log-generator
-    docker build --no-cache .
-popd
-
-pushd log-output
-    docker build --no-cache .
-popd
+docker build -f log-generator/Dockerfile log-generator || exit 1
+docker build -f log-output/Dockerfile log-output || exit 1
 
 helm lint --with-subcharts charts/rancher-logging-example

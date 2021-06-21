@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	. "github.com/paynejacob/rancher-logging-examples/log-output/pkg/index"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	. "github.com/paynejacob/rancher-logging-examples/log-output/pkg/index"
 )
 
 func main() {

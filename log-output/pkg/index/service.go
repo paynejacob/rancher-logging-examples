@@ -2,10 +2,12 @@ package index
 
 import (
 	"bufio"
-	"github.com/gorilla/mux"
+	"encoding/json"
 	"net/http"
 	"sync"
 	"text/template"
+
+	"github.com/gorilla/mux"
 )
 
 type Service struct {
@@ -21,27 +23,44 @@ func NewIndexService() *Service {
 }
 
 func (s Service) ListLogs(w http.ResponseWriter, r *http.Request) {
+	var indexName = mux.Vars(r)["index_name"]
 	var err error
 	var logs [][]byte
-	var indexName = mux.Vars(r)["index_name"]
 
 	s.m.RLock()
-
 	// check if this is a valid index
 	if _, exists := s.indices[indexName]; exists {
 		logs = s.indices[indexName].Logs
 	}
-
 	s.m.RUnlock()
 
-	// write logs to response
-	for i := range logs {
-		if _, err = w.Write(logs[i]); err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+	if r.Header.Get("Accept") == "application/json" {
+		var jsonLogs []map[string]interface{}
+
+		for _, log := range logs {
+			if log == nil {
+				break
+			}
+			// Unmarshal the struct to json
+			var raw map[string]interface{}
+			if err = json.Unmarshal(log, &raw); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
+			jsonLogs = append(jsonLogs, raw)
 		}
 
-		if _, err = w.Write([]byte("\n")); err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(jsonLogs)
+	} else {
+		// write logs to response
+		for i := range logs {
+			if _, err = w.Write(logs[i]); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
+
+			if _, err = w.Write([]byte("\n")); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
 		}
 	}
 }
@@ -78,9 +97,14 @@ func (s Service) ListIndices(w http.ResponseWriter, r *http.Request) {
 
 	s.m.RUnlock()
 
-	_template, err := template.New("listPage").Funcs(template.FuncMap{"DateFormat": DateFormat}).Parse(listPageTemplate)
-	_ = err
-	_ = _template.Execute(w, indices)
-	w.Header().Add("Content-Type", "text/html")
-}
+	if r.Header.Get("Accept") == "application/json" {
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(indices)
 
+	} else {
+		_template, err := template.New("listPage").Funcs(template.FuncMap{"DateFormat": DateFormat}).Parse(listPageTemplate)
+		_ = err
+		_ = _template.Execute(w, indices)
+		w.Header().Add("Content-Type", "text/html")
+	}
+}
